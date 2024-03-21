@@ -48,10 +48,9 @@ export default function RegisterPage(){
             )}
             {error && (
                 <div className="my-4 text-center">
-                    An error has ocurred. <br/>
-                    Please try again later
-                    <Link className="underline" href={'/login'}>Login &raquo;</Link>
-                </div>
+                An error has occurred.<br />
+                Please try again later
+              </div>
             )}
             <form className="block max-w-xs mx-auto" onSubmit={handleFormSubmit}>
                 <input  type="email" placeholder="email" value={email} 

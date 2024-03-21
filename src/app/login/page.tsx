@@ -1,7 +1,7 @@
+// COPIADO 
 'use client';
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 export default function LoginPage(){
@@ -13,17 +13,6 @@ export default function LoginPage(){
         ev.preventDefault();
         setLoginInProgress(true);
         await signIn('credentials',{email, password, callbackUrl: '/'});
-
-        // const {ok} = await fetch('api/login',{
-        //                     method:'POST',
-        //                     body: JSON.stringify({email, password}),
-        //                     headers: {'Content-Type':'application/json'},
-        //                 });
-        // if(ok){
-
-        // }else{
-
-        // }
         setLoginInProgress(false);
     }
     return (
@@ -38,18 +27,14 @@ export default function LoginPage(){
                 <input type="password" name="password" placeholder="password" value={password} 
                         disabled={loginInProgress} 
                         onChange={e => setPasword(e.target.value)}/>
-                <button type="submit" disabled={false} >Login</button>
+                <button type="submit" disabled={loginInProgress} >Login</button>
                 <div className="my-4 text-center text-gray-500">
                     or login whit provider
                 </div>
                 <button type="button" onClick={()=>signIn('google',{callbackUrl:'/'})} disabled={loginInProgress} className="flex gap-4 justify-center">
-                    <Image src={'/google.png'} alt={'login'} width={24} height={24}/>
+                    <Image src={'/google.png'} alt={''} width={24} height={24}/>
                     Login with google
                 </button>
-                {/* <div className="text-center text-gray-500 my-4 border-t pt-4">
-                    Existing account? {' '}
-                    <Link className="underline" href={'/login'} >Login here &raquo;</Link>
-                </div> */}
             </form>
         </section>
     )

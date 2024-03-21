@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Hero from "@/components/layout/Hero";
 import HomeMenu from "@/components/layout/HomeMenu";
-import SectionHeader from "@/components/layout/SectionHeader";
+import SectionHeader from "@/components/layout/SectionHeaders";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
     
     <Hero />
     <HomeMenu />
-    <section className="text-center my-8">
+    <section className="text-center my-16" id="about">
       <SectionHeader subHeader={'Our story'} mainHeader={'About us'}/>
       {/* text en tritico
       <div className="text-gray-500 max-w-2xl mx-auto mt-4 flex gap-4">  */}
@@ -26,7 +26,7 @@ export default function Home() {
       </div>
       
     </section>
-    <section className="text-center my-8">
+    <section className="text-center my-8" id="contact">
       <SectionHeader subHeader={'Dont hesitate'} mainHeader={'Contact us'} />
       <div className="mt-8">
         <a className="text-4xl underline text-gray-500" href="tel:+12344563533">+12344563533</a>
