@@ -1,4 +1,5 @@
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import { ExtraPrice } from "@/libs/types";
 import {MenuItem} from "@/models/MenuItem";
 import {Order} from "@/models/Order";
 import mongoose from "mongoose";
@@ -27,14 +28,16 @@ export async function POST(req:Request) {
     let productPrice = productInfo.basePrice;
     if (cartProduct.size) {
       const size = productInfo.sizes
-        .find(size => size._id.toString() === cartProduct.size._id.toString());
+        .find((size : ExtraPrice) => size._id.toString() === cartProduct.size._id.toString());
+        // .find(size => size._id.toString() === cartProduct.size._id.toString());
       productPrice += size.price;
     }
     if (cartProduct.extras?.length > 0) {
       for (const cartProductExtraThing of cartProduct.extras) {
         const productExtras = productInfo.extraIngredientPrices;
         const extraThingInfo = productExtras
-          .find(extra => extra._id.toString() === cartProductExtraThing._id.toString());
+          .find((extra : ExtraPrice) => extra._id.toString() === cartProductExtraThing._id.toString());
+          // .find(extra => extra._id.toString() === cartProductExtraThing._id.toString());
         productPrice += extraThingInfo.price;
       }
     }

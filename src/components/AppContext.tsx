@@ -3,7 +3,13 @@ import {SessionProvider} from "next-auth/react";
 import {createContext, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 
-export const CartContext = createContext({});
+interface CartContextType {
+  // clearCart: () => void;
+  clearCart:{}
+  // Add other properties as needed
+}
+// export const CartContext = createContext({});
+export const CartContext = createContext<CartContextType| null>(null);
 
 export function cartProductPrice(cartProduct : any) {
   let price = cartProduct.basePrice;

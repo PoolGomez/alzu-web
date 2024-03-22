@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { User } from "@/models/User";
 import { UserInfo } from "@/models/UserInfo";
+import { UserType } from "@/libs/types";
 
 export async function PUT( req : Request ){
     mongoose.connect(process.env.MONGO_URL || '');
@@ -24,15 +25,9 @@ export async function PUT( req : Request ){
     return Response.json(true);
 }
 
-interface UserDatos{
-    name:String ,
-    email: String,
-    password: String,
-    image:String
-}
 
 export async function GET(req : Request){
-    mongoose.connect(process.env.MONGO_URL || '');
+  mongoose.connect(process.env.MONGO_URL || '');
 
   const url = new URL(req.url);
   const _id = url.searchParams.get('_id');
@@ -49,9 +44,9 @@ export async function GET(req : Request){
     filterUser = {email};
   }
 
-  const user : UserDatos | null = await User.findOne(filterUser).lean();
+  const user : UserType | null = await User.findOne(filterUser).lean();
   const userInfo = await UserInfo.findOne({email:user?.email}).lean();
-
+  console.log({...user, ...userInfo});
   return Response.json({...user, ...userInfo});
 
 }

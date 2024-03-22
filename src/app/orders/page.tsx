@@ -3,13 +3,14 @@ import SectionHeaders from "@/components/layout/SectionHeaders";
 import UserTabs from "@/components/layout/UserTabs";
 import {useProfile} from "@/components/UseProfile";
 import {dbTimeForHuman} from "@/libs/datetime";
+import { DataProfileType, OrderType } from "@/libs/types";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
-  const {loading, data:profile} = useProfile();
+  const {data:profile}:{data: DataProfileType | undefined}= useProfile();
 
   useEffect(() => {
     fetchOrders();
@@ -27,7 +28,7 @@ export default function OrdersPage() {
 
   return (
     <section className="mt-8 max-w-2xl mx-auto">
-      <UserTabs isAdmin={profile.admin} />
+      <UserTabs isAdmin={profile?.admin ?? false} />
       <div className="mt-8">
         {loadingOrders && (
           <div>Loading orders...</div>

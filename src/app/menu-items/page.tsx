@@ -2,13 +2,14 @@
 import Right from "@/components/icons/Right";
 import UserTabs from "@/components/layout/UserTabs";
 import {useProfile} from "@/components/UseProfile";
+import { MenuItemType } from "@/libs/types";
 import Image from "next/image";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
 export default function MenuItemsPage() {
 
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState<MenuItemType[]>([]);
   const {loading, data} = useProfile();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function MenuItemsPage() {
     return 'Loading user info...';
   }
 
-  if (!data.admin) {
+  if (!data?.admin) {
     return 'Not an admin.';
   }
 

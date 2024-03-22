@@ -5,9 +5,10 @@ import EditableImage from "@/components/layout/EditableImage";
 import MenuItemForm from "@/components/layout/MenuItemForm";
 import UserTabs from "@/components/layout/UserTabs";
 import {useProfile} from "@/components/UseProfile";
+import { MenuItemCreateType } from "@/libs/types";
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import {useState} from "react";
+import {FormEvent, useState} from "react";
 import toast from "react-hot-toast";
 
 export default function NewMenuItemPage() {
@@ -15,9 +16,9 @@ export default function NewMenuItemPage() {
   const [redirectToItems, setRedirectToItems] = useState(false);
   const {loading, data} = useProfile();
 
-  async function handleFormSubmit(ev, data) {
+  async function handleFormSubmit(ev: FormEvent<HTMLFormElement>, data : MenuItemCreateType) {
     ev.preventDefault();
-    const savingPromise = new Promise(async (resolve, reject) => {
+    const savingPromise = new Promise<void>(async (resolve, reject) => {
       const response = await fetch('/api/menu-items', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -46,7 +47,7 @@ export default function NewMenuItemPage() {
     return 'Loading user info...';
   }
 
-  if (!data.admin) {
+  if (!data?.admin) {
     return 'Not an admin.';
   }
 

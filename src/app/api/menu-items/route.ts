@@ -6,7 +6,11 @@ export async function POST(req:Request) {
   mongoose.connect(process.env.MONGO_URL || '');
   const data = await req.json();
   if (await isAdmin()) {
+    console.log('data request');
+    console.log(data);
     const menuItemDoc = await MenuItem.create(data);
+    console.log('menuItemDoc');
+    console.log(menuItemDoc);
     return Response.json(menuItemDoc);
   } else {
     return Response.json({});

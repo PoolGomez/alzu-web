@@ -1,19 +1,33 @@
 'use client';
 import DeleteButton from "@/components/DeleteButton";
 import UserTabs from "@/components/layout/UserTabs";
-import {useEffect, useState} from "react";
+import {FormEvent, ReactEventHandler, useEffect, useState} from "react";
 import {useProfile} from "@/components/UseProfile";
 import toast from "react-hot-toast";
+import { DataProfileType } from "@/libs/types";
+
+interface DataCategory{
+  _id?: string;
+  name: string;
+}
+interface DataCategory2{
+  _id: string;
+  name: string;
+}
 
 export default function CategoriesPage(){
     
     const [ categoryName, setCategoryName] = useState('');
     const [ categories, setCategories] = useState([]);
-    const { loading : profileLoading, data: profileData }= useProfile();
-    const [ editedCategory, setEditedCategory] = useState(null);
+    const { loading : profileLoading, data: profileData }
+    :{loading: boolean, data: DataProfileType | undefined}
+    = useProfile();
+    const [ editedCategory, setEditedCategory] = useState<DataCategory | null>(null);
 
     useEffect(()=>{
         fetchCategories();
+        console.log('profileData');
+        console.log(profileData);
     },[]);
 
     function fetchCategories() {
@@ -25,10 +39,10 @@ export default function CategoriesPage(){
     }
 
 
-    async function handleCategorySubmit(ev: any){
+    async function handleCategorySubmit(ev: FormEvent<HTMLFormElement>){
         ev.preventDefault();
         const creationPromise = new Promise<void>(async (resolve, reject)=>{
-            const data = { name : categoryName}
+            const data: DataCategory = { name : categoryName}
             if (editedCategory) {
                 data._id = editedCategory._id;
             }
@@ -56,8 +70,8 @@ export default function CategoriesPage(){
         });
     }
 
-    async function handleDeleteClick(_id) {
-        const promise = new Promise(async (resolve, reject) => {
+    async function handleDeleteClick(_id : string) {
+        const promise = new Promise<void>(async (resolve, reject) => {
           const response = await fetch('/api/categories?_id='+_id, {
             method: 'DELETE',
           });
@@ -82,8 +96,11 @@ export default function CategoriesPage(){
         return 'Loading user info...';
     }
 
-    if (!profileData.admin) {
-        return 'Not an admin';
+    // if (!profileData.admin) {
+    //     return 'Not an admin';
+    // }
+    if (!profileData?.admin) {
+      return 'Not an admin';
     }
     
 
@@ -121,25 +138,25 @@ export default function CategoriesPage(){
       </form>
       <div>
         <h2 className="mt-8 text-sm text-gray-500">Existing categories</h2>
-        {categories?.length > 0 && categories.map(c => (
+        {categories?.length > 0 && categories.map((category: DataCategory2) => (
           <div
-            key={c._id}
+            key={category._id}
             className="bg-gray-100 rounded-xl p-2 px-4 flex gap-1 mb-1 items-center">
             <div className="grow">
-              {c.name}
+              {category.name}
             </div>
             <div className="flex gap-1">
               <button type="button"
                       onClick={() => {
-                        setEditedCategory(c);
-                        setCategoryName(c.name);
+                        setEditedCategory(category);
+                        setCategoryName(category.name);
                       }}
               >
                 Edit
               </button>
               <DeleteButton
                 label="Delete"
-                onDelete={() => handleDeleteClick(c._id)} />
+                onDelete={() => handleDeleteClick(category._id)} />
             </div>
           </div>
         ))}

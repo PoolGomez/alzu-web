@@ -57,7 +57,7 @@ export default function UserForm({user,onSave}) {
           addressProps={{phone, streetAddress, postalCode, city, country}}
           setAddressProp={handleAddressChange}
         />
-        {loggedInUserData.admin && (
+        {loggedInUserData?.admin && (
           <div>
             <label className="p-2 inline-flex items-center gap-2 mb-2" htmlFor="adminCb">
               <input
